@@ -1,0 +1,14 @@
+UI
+    1) Major
+    * Table for employee
+    * pop up edit dialog box
+    
+    2)Minor
+    * age input arrow remove
+    * 
+
+Validation
+    * employee name should be alpha only
+    * age 18-60
+    * id should be unqiue 
+    * all field are required

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- TODO utf and viewport learn -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="container">
+        <div class="table-box">
+            <table id="dataTable">
+              <thead>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Edit/Delete</th>
+              </thead>
+              <tbody>
+                <!-- <tr><td> id</td>
+                    <td>name</td>
+                    <td>Age</td>
+                    <td>Gender</td>
+                    <td><button onclick='editEmployeeRecord()'>Edit</button> <button onclick='deleteEmployeeRecord()'> Delete</button></td></tr> -->
+              </tbody>
+            </table>
+          </div>
+      <div class="form-box" >
+        <form id="form" onsubmit="return false;">
+            <div class="heading"> Details</div>
+            <div class="fdiv id">
+                <label for="emp_id">Employee id</label><br>
+                <input type="number" id="emp_id" min="0" required /><br>
+                <span id="form_id_error"></span>
+            </div>
+          
+            <div class="fdiv name">
+          <label for="emp_name">Name</label><br/>
+          <input
+            type="text"
+            id="emp_name"
+           
+            required
+          /><br>
+          <span id="form_name_error"></span>
+        </div>
+        <div class="fdiv age">
+          <label for="emp_age">Age</label><br/>
+          <input type="number" id="emp_age" required /><br>
+          <span id="form_age_error"></span>
+        </div>
+          
+          <div class="fdiv gender">
+
+          <label for="emp_gender" >Gender</label></br>
+          <select id="emp_gender" >
+            <option value="" disabled selected>Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select><br>
+          <span id="form_gender_error"></span>
+
+        </div>
+        <div class="btn add">
+          <button onclick="onFormSubmit()">Add</button><br />
+        </div>
+        <!-- <div class="btn upt">
+          <button onclick="onUpdate()">update</button><br />
+        </div> -->
+        </form>
+      </div>
+      <!-- popup form -->
+      <div class="popup-box">
+        <form id="pop-form" onsubmit="return false;">
+            <div class="pop-heading"> Edit Details</div>
+            <div class="fdiv id">
+                <label for="pop_emp_id">Employee id</label><br/>
+                <input type="number" id="pop_emp_id" min="0" /><br>
+                <span id="pop_id_error"></span>
+            </div>
+          
+            <div class="fdiv name">
+          <label for="pop_emp_name">Name</label><br/>
+          <input
+            type="text"
+            id="pop_emp_name"
+            required
+          /><br>
+          <span id="pop_name_error"></span>
+        </div>
+        <div class="fdiv age">
+          <label for="pop_emp_age">Age</label><br/>
+          <input type="number" id="pop_emp_age" required />
+          <span id="pop_age_error"></span>
+        </div>
+          
+          <div class="fdiv gender">
+
+          <label for="pop_emp_gender">Gender</label></br>
+          <select id="pop_emp_gender" >
+            <option value="" disabled selected>Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select><br/>
+          <span id="pop_gender_error"></span>
+        </div>
+        <div class="pop btn">
+          <button onclick="closePopForm()">Cancel</button><br />
+        
+          <button onclick="onUpdate()">update</button><br />
+        </div>
+        </form>
+      </div>
+      
+    </div>
+  </body>
+  <script defer src="index.js"></script>
+</html>
