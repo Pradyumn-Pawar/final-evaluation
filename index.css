@@ -57,17 +57,35 @@ html, body {
             border:1px solid #ddd ;  
     
 }
-.table-box table tbody td button{
+
+.edit{
+    font-size: 14px;
+    padding: 8px 18px 8px 18px;
+    color: black;
+    border: 1px solid ;
+    margin-right: 8px;
+    border-radius: 4px;
+    background-color:white;
+}
+
+.edit:hover{
+    background-color: whitesmoke;
+}
+
+.delete{
     font-size: 14px;
     padding: 8px 12px 8px 12px;
-    background: royalblue;
-    border: none;
-    border-radius: 4px;
     color: white;
+    border: 1px solid red;
+    border-radius: 4px;
+    background-color:red;
 }
-.table-box table tbody td button:hover{
-    background: #165394;
+
+.delete:hover{
+    border: 1px solid  rgb(204, 4, 4);
+    background-color: rgb(204, 4, 4);
 }
+
 
 .fdiv{
     margin-bottom: 14px;

@@ -49,27 +49,7 @@ function onUpdate() {
     }
     console.log(uniqueIds)
     
-    // // 
-    // console.log(typeof prebvId)
-    // console.log(typeof uniqueIds[0])
-    // uniqueIds[0]="232222"
-    // console.log("59",Number(uniqueIds[0])== Number(prebvId))
-    // // console.log(uniqueIds.indexOf(prebvId));
-    // console.log("---------")
-    // // console.log(typeof prebvId)
-    // console.log("63",typeof uniqueIds[0], typeof prebvId)
-   
-    // for(var i=0;i<uniqueIds.length;i++){
-    //   console.log("one : ",uniqueIds[i], prebvId);
-    //   if(uniqueIds[i].trim()===prebvId.toString().trim()){
-    //     console.log("true")
-    //    uniqueIds[i]=prebvId
-    //   }
-    // }
-    // console.log(uniqueIds)
-    // console.log("---------")
-    
-    // console.log(" updated");
+ 
   }
 }
 
@@ -102,7 +82,7 @@ function addEmployeeRecord(formData) {
     <td>${formData.emp_name} </td>
     <td>${formData.emp_age} </td>
     <td>${formData.emp_gender} </td>
-   <td><button onclick='openPopForm()'>Edit</button> <button onclick='deleteEmployeeRecord()'> Delete</button></td>`;
+   <td><button class="edit" onclick='openPopForm()'>Edit</button> <button class="delete" onclick='deleteEmployeeRecord()'> Delete</button></td>`;
 
   var x = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
 
@@ -173,8 +153,8 @@ function validatedForm(formData) {
   let emp_name = formData.emp_name;
   let isValid = true;
   let num = /^[0-9]+$/
-  let empIdError = document.getElementById("form_id_error");
-  console.log(num.test(emp_id.toString()))
+ 
+  
 if(emp_id.toString()===""){
   document.getElementById("form_id_error").innerHTML="ID cannot be empty"
   isValid=false
@@ -240,7 +220,7 @@ function validatedPopForm(formData) {
     let emp_name = formData.emp_name;
     let emp_gender = formData.emp_gender;
     let isValid = true;
-
+    let num = /^[0-9]+$/
     
   
     if(emp_id.toString()===""){
@@ -280,6 +260,10 @@ function validatedPopForm(formData) {
       isValid = false;
     }else if(Number(emp_age)<0) {
       document.getElementById("pop_age_error").innerHTML="age cannot be negative"
+      isValid=false
+    }else if(!num.test(emp_age.toString())){
+  
+      document.getElementById("pop_age_error").innerHTML="age should only contain integer"
       isValid=false
     }else{
       document.getElementById("pop_age_error").innerHTML=""
