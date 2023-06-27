@@ -1,48 +1,75 @@
 const form = document.getElementById("form");
 const popForm = document.getElementById("pop-form");
 let selectedRow = null;
-const deletedIds = [];
-const uniqueIds = [];
+let deletedIds = [];
+var uniqueIds = [] ;
 let prebvId;
-var arr = [];
-// // what is click /submit and e=>
-// form.addEventListener('submit',e=>{
-//     // prevent default learn
-//     // do dom assign id to tag automatic
-//     e.preventDefault();
-// //    let formData = readData()
-// //    addEmployeeRecord(formData)
-// //     // if(!isIdDeleted(formData.emp_id)){
-// //     //     updateEmployeeRecord(formData)
-// //     // }
 
-//     console.log(employeeList)
-// });
+
 
 function onFormSubmit() {
-  // event.preventDefault()
+  //  event.preventDefault()
   let formData = readData();
+  
 
   if (validatedForm(formData)) {
-    console.log(uniqueIds.includes(formData.emp_id))
+    // console.log(uniqueIds.includes(formData.emp_id))
     addEmployeeRecord(formData);
-    resetForm()
+     resetForm()
     
   }
 }
 
 function onUpdate() {
-  // event.preventDefault()
+  //  event.preventDefault()
   let formData = readPopData();
   if (validatedPopForm(formData)) {
-   
-    uniqueIds.pop(prebvId)
-    uniqueIds.push(formData.emp_id)
-    console.log("wi")
-    console.log(uniqueIds)
     updateEmployeeRecord(formData);
     closePopForm()
-    console.log(" updated");
+   //uniqueIds.splice(uniqueIds.indexOf(prebvId),1) 
+//    console.log(uniqueIds);
+   
+// console.log(uniqueIds);
+//    console.log(typeof prebvId)
+//    uniqueIds = uniqueIds.filter(function(item) {
+//     return item != prebvId
+// })
+ console.log(uniqueIds);
+  
+   
+   
+   
+    // console.log(uniqueIds);
+
+    
+    var index = uniqueIds.indexOf(prebvId.toString().trim())
+    console.log("prevs",prebvId,"index",index)
+    if(index!==-1){
+      uniqueIds.splice(index,1);
+    }
+    console.log(uniqueIds)
+    
+    // // 
+    // console.log(typeof prebvId)
+    // console.log(typeof uniqueIds[0])
+    // uniqueIds[0]="232222"
+    // console.log("59",Number(uniqueIds[0])== Number(prebvId))
+    // // console.log(uniqueIds.indexOf(prebvId));
+    // console.log("---------")
+    // // console.log(typeof prebvId)
+    // console.log("63",typeof uniqueIds[0], typeof prebvId)
+   
+    // for(var i=0;i<uniqueIds.length;i++){
+    //   console.log("one : ",uniqueIds[i], prebvId);
+    //   if(uniqueIds[i].trim()===prebvId.toString().trim()){
+    //     console.log("true")
+    //    uniqueIds[i]=prebvId
+    //   }
+    // }
+    // console.log(uniqueIds)
+    // console.log("---------")
+    
+    // console.log(" updated");
   }
 }
 
@@ -67,7 +94,7 @@ function readPopData() {
 function addEmployeeRecord(formData) {
   //Test
   
-  uniqueIds.push(formData.emp_id);
+  uniqueIds.push(formData.emp_id.trim());
 
   let tableData = "";
   tableData = `
@@ -88,6 +115,8 @@ function addEmployeeRecord(formData) {
 function editEmployeeRecord() {
   selectedRow = event.target.parentElement.parentElement;
   prebvId = selectedRow.cells[0].innerHTML;
+  console.log(prebvId)
+
   document.getElementById("pop_emp_id").value = Number(
     selectedRow.cells[0].innerHTML
   );
@@ -120,8 +149,8 @@ function deleteEmployeeRecord(){
     let id =selectedRow.cells[0].innerHTML.trim()
 
     deletedIds.push(id)
-    uniqueIds.pop(id)
     
+    console.log("29:",uniqueIds.pop(id))
     console.log(deletedIds)
     document.getElementById("dataTable").deleteRow(selectedRow.rowIndex)
     
@@ -133,6 +162,8 @@ function updateEmployeeRecord(formData) {
   selectedRow.cells[1].innerHTML = formData.emp_name;
   selectedRow.cells[2].innerHTML = formData.emp_age;
   selectedRow.cells[3].innerHTML = formData.emp_gender;
+  uniqueIds.push(formData.emp_id)
+  console.log("update record", uniqueIds)
 }
 
 function validatedForm(formData) {
@@ -141,31 +172,32 @@ function validatedForm(formData) {
   let emp_age = Number(formData.emp_age);
   let emp_name = formData.emp_name;
   let isValid = true;
-
-  var empIdError = document.getElementById("form_id_error");
-
-  //Validate Emp Id
- 
- 
-  if (isIdDeleted(emp_id)) {
-    document.getElementById("form_id_error").innerText="This Id can not be use"
-
-    console.log("emp_id not unique");
-    isValid = false;
-  }else{
-    document.getElementById("form_id_error").innerText=""
-
-  }
-
-  // validation for emp_id
-  if (!isIdUnique(emp_id)) {
+  let num = /^[0-9]+$/
+  let empIdError = document.getElementById("form_id_error");
+  console.log(num.test(emp_id.toString()))
+if(emp_id.toString()===""){
+  document.getElementById("form_id_error").innerHTML="ID cannot be empty"
+  isValid=false
+}else if(Number(emp_id)<0) {
+  document.getElementById("form_id_error").innerHTML="ID cannot be negative"
+  console.log("id cannot be empty")
+  isValid=false
+}else if(!num.test(emp_id.toString())){
+  
+  document.getElementById("form_id_error").innerHTML="ID should only contain integer"
+  isValid=false
+}
+ else if (!isIdUnique(emp_id)||isIdDeleted(emp_id) ) {
     document.getElementById("form_id_error").innerHTML="Id already in use"
+    console.log(document.getElementById("form_id_error").innerHTML)
 
     isValid = false;
   }else{
     document.getElementById("form_id_error").innerHTML=""
 
   }
+
+  
 
   if(!isNameValid(emp_name)){
     document.getElementById("form_name_error").innerHTML="Name can only contains alphabets"
@@ -181,6 +213,10 @@ function validatedForm(formData) {
     document.getElementById("form_age_error").innerHTML="age should be in between 18-60"
 
     isValid = false;
+  }else if(!num.test(emp_age.toString())){
+  
+    document.getElementById("form_age_error").innerHTML="age should only contain integer"
+    isValid=false
   }else{
     document.getElementById("form_age_error").innerHTML=""
 
@@ -204,21 +240,21 @@ function validatedPopForm(formData) {
     let emp_name = formData.emp_name;
     let emp_gender = formData.emp_gender;
     let isValid = true;
-  
-    //Validate Emp Id
 
-   
-    if (isIdDeleted(emp_id)) {
-      
-      document.getElementById("pop_id_error").innerHTML="This Id cannot be used"
-      isValid = false;
-    }else{
-      document.getElementById("pop_id_error").innerHTML=""
+    
   
+    if(emp_id.toString()===""){
+      document.getElementById("pop_id_error").innerHTML="ID cannot be empty"
+      isValid=false
+    }else if(Number(emp_id)<0) {
+      document.getElementById("pop_id_error").innerHTML="ID cannot be negative"
+      isValid=false
+    }else if(!num.test(emp_id.toString())){
+  
+      document.getElementById("pop_id_error").innerHTML="ID should only contain integer"
+      isValid=false
     }
-  
-    // validation for emp_id
-    if (!isIdUnique(emp_id)) {
+    else if (!isIdUnique(emp_id)||isIdDeleted(emp_id)) {
       document.getElementById("pop_id_error").innerHTML="Id already in use"
   
       console.log("emp_id not unique");
@@ -242,6 +278,9 @@ function validatedPopForm(formData) {
       document.getElementById("pop_age_error").innerHTML="age should be in between 18-60"
   
       isValid = false;
+    }else if(Number(emp_age)<0) {
+      document.getElementById("pop_age_error").innerHTML="age cannot be negative"
+      isValid=false
     }else{
       document.getElementById("pop_age_error").innerHTML=""
   
@@ -268,12 +307,7 @@ function isNameValid(emp_name){
 
 function isIdUnique(emp_id) {
   if (Number(prebvId) != emp_id) {
-    // console.log("not same")
-    // if(!uniqueIds.includes(emp_id)){
-    //     console.log("unique")
-    // }else{
-    //     console.log("not unique")
-    // }
+    
 
     return !uniqueIds.includes(emp_id);
   }
@@ -294,6 +328,7 @@ function resetForm() {
 }
 
 function openPopForm(){
+  
   document.getElementsByClassName("popup-box")[0].style.display="block"
   editEmployeeRecord()  
   
